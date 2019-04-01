@@ -1,0 +1,20 @@
+@startuml
+{{#each entities as |entity|}}
+
+class {{entity.class-name}} {
+  {{#each entity.properties as |property|}}
+  {{#if property.snippet}}
+  + {get} {{property.identifier}}: {{property.class-name}}{{#if property.nullable}}?{{/if}}
+  {{else}}
+  + {{property.identifier}}: {{property.class-name}}{{#if property.nullable}}?{{/if}}
+  {{/if}}
+  {{/each}}
+}
+{{#each entity.relationships as |relationship|}}
+{{#if relationship.aggregate}}
+{{entity.class-name}} *-- "{{relationship.cardinality}}" {{relationship.reference-entity.class-name}} : {{relationship.name}}
+{{/if}}
+{{/each}}
+
+{{/each}}
+@enduml

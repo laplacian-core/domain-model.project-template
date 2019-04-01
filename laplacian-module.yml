@@ -1,0 +1,17 @@
+project:
+  group: laplacian
+  type: template
+  name: entity
+  subname: diagram
+  version: "1.0.0"
+
+  plugins:
+  - group: laplacian
+    name: metamodel
+    version: "1.0.0"
+
+  models:
+  - group: laplacian
+    name: metamodel
+    version: "1.0.0"
+
