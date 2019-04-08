@@ -4,11 +4,8 @@ project:
   name: entity
   subname: diagram
   version: "1.0.0"
-
-  plugins:
-  - group: laplacian
-    name: metamodel
-    version: "1.0.0"
+  description: |
+    This template generates diagrams which express the structure of a model defined with 'metamodel' model.
 
   models:
   - group: laplacian
