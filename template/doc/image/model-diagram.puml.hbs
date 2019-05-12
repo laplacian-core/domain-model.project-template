@@ -1,20 +1,26 @@
 @startuml
-{{#each entities as |entity|}}
-
+left to right direction
+{{#each entities.in_namespace as |entity|}}
 class {{entity.class-name}} {
   {{#each entity.properties as |property|}}
-  {{#if property.snippet}}
-  + {get} {{property.identifier}}: {{property.class-name}}{{#if property.nullable}}?{{/if}}
-  {{else}}
-  + {{property.identifier}}: {{property.class-name}}{{#if property.nullable}}?{{/if}}
-  {{/if}}
+  {{#define "attribute"}}{{#if property.primary_key}}{PK}  {{else if property.snippet}}{get} {{else if property.optional}}{opt} {{/if}}{{/define}}
+  + {{attribute}}{{property.identifier}}: {{property.class-name}}{{#if property.nullable}}?{{/if}}
   {{/each}}
 }
-{{#each entity.relationships as |relationship|}}
+{{#each entity.stored_relationships as |relationship|}}
+{{define "ref-entity" relationship.reference-entity}}
+{{define "external" (neq entity.namespace ref-entity.namespace)}}
+{{#if external}}
+package {{ref-entity.namespace}} {
+  class {{ref-entity.class-name}} {
+  }
+}
+{{/if}}
 {{#if relationship.aggregate}}
-{{entity.class-name}} *-- "{{relationship.cardinality}}" {{relationship.reference-entity.class-name}} : {{relationship.name}}
+{{entity.class-name}} *-- "{{relationship.cardinality}}" {{ref-entity.class-name}} : {{relationship.name}}
+{{else}}
+{{entity.class-name}} -- "{{relationship.cardinality}}" {{ref-entity.class-name}} : {{relationship.name}}
 {{/if}}
 {{/each}}
-
 {{/each}}
 @enduml
