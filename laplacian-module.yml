@@ -2,10 +2,11 @@ project:
   group: laplacian
   type: template
   name: entity
-  subname: diagram
+  subname: document
   version: "1.0.0"
   description: |
-    This template generates diagrams which express the structure of a model defined with 'metamodel' model.
+    This template generates a document describing a model defined with 'metamodel' model, which includes
+    a diagram that represents the structure of the model.
 
   models:
   - group: laplacian

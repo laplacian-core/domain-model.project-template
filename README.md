@@ -1,6 +1,7 @@
-# laplacian:template:entity.diagram
+# laplacian:template:entity.document
 
-This template generates diagrams which express the structure of a model defined with 'metamodel' model.
+This template generates a document describing a model defined with 'metamodel' model, which includes
+a diagram that represents the structure of the model.
 
 
 
@@ -24,7 +25,7 @@ project:
   ## ↓↓ ADD ↓↓ ##
   - group: laplacian
     name: entity
-    subname: diagram
+    subname: document
     version: "1.0.0"
   ## ↑↑ ADD ↑↑ ##
 ```

@@ -3,7 +3,9 @@ build/
 out/
 .gradle/
 *.log
+*.class
 *.jar
+!gradle-wrapper.jar
 .git/
 .gitignore
 .bzr/
@@ -20,3 +22,5 @@ out/
 *.iml
 *.tmproj
 .vscode/
+# @additional_entries@
+# @additional_entries@

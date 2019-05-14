@@ -1,4 +1,4 @@
-rootProject.name = "laplacian.template.entity.diagram"
+rootProject.name = "laplacian.template.entity.document"
 
 pluginManagement {
     repositories {

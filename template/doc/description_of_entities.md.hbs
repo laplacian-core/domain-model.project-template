@@ -1,0 +1,35 @@
+{{#*inline "ENTITY_DOC"}}
+
+---
+### **{{ENTITY.name}}** (*{{ENTITY.namespace}}.model.{{ENTITY.class_name}}*)
+  {{shift ENTITY.description 2}}
+
+#### Properties
+  {{#each ENTITY.properties as |property|}}
+  {{#define "modifiers"}}{{#if property.readonly}} *readonly*{{/if}}{{#if property.primary_key}} *PK*{{/if}}{{/define}}
+* **{{property.name}}:**{{modifiers}} `{{property.class_name}}{{#if property.optional}}?{{/if}}`
+  {{shift property.description 2}}
+  {{/each}}
+
+#### Relationships
+  {{#each ENTITY.relationships as |relationship|}}
+  {{#define "modifiers"}}{{/define}}
+* **{{relationship.name}}:**{{modifiers}} `{{relationship.class_name}}`
+  {{shift relationship.description 2}}
+  {{/each}}
+
+{{/inline}}
+
+## Description of entities
+
+### Structure
+![](./image/model-diagram.svg)
+
+  {{#each entities.top_level_in_namespace as |top_level|}}
+{{>ENTITY_DOC ENTITY=top_level}}
+  {{#each top_level.aggregates as |aggregate|}}
+{{>ENTITY_DOC ENTITY=aggregate.reference_entity}}
+  {{/each}}
+  {{/each}}
+
+
