@@ -7,6 +7,15 @@ class {{entity.class-name}} {
   + {{attribute}}{{property.identifier}}: {{property.class-name}}{{#if property.nullable}}?{{/if}}
   {{/each}}
 }
+{{#if entity.supertype}}
+{{entity.class-name}} --|> {{entity.supertype.class-name}}
+{{#if (neq entity.namespace entity.supertype.namespace)}}
+package {{entity.supertype.namespace}} {
+  class {{entity.supertype.class-name}} {
+  }
+}
+{{/if}}
+{{/if}}
 {{#each entity.stored_relationships as |relationship|}}
 {{define "ref-entity" relationship.reference-entity}}
 {{define "external" (neq entity.namespace ref-entity.namespace)}}
