@@ -5,8 +5,9 @@ class {{entity.class-name}} {
   {{#each entity.properties as |property|}}
   {{~#define "attribute"}}
   {{~#if property.primary_key}}<color:RED><&key></color>{{/if}}
+  {{~#if property.subtype_key}}<color:RED><&flag></color>{{/if}}
+  {{~#if property.overwrites}}<color:GREEN><&arrow-thick-top></color>{{/if}}
   {{~#if (and (not property.optional) (not property.snippet) (not property.default_value))}}<color:Green><&star></color>{{/if}}
-  {{~#if property.subtype_key}}<color:GREEN><&flag></color>{{/if}}
   {{~/define}}
   {{attribute~}}{{#if property.snippet}}{{lower-camel property.identifier}}(){{else}}{{property.identifier}}{{/if}}: <color:GRAY>{{property.class-name}}{{#if property.nullable}}?{{/if}}</color>
   {{/each}}
