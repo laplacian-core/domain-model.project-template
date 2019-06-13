@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/nabla-squared/laplacian.template.entity.document.svg?style=shield)](https://circleci.com/gh/nabla-squared/laplacian.template.entity.document)
+
 # laplacian:template:entity.document
 
 This template generates a document describing a model defined with 'metamodel' model, which includes
