@@ -7,7 +7,7 @@ left to right direction
 {{#define "entity_doc_url"}}{{base_url}}/doc/entities/{{entity.class_name}}.md{{/define}}
 class {{entity.class-name}} [[{{entity_doc_url}}]] {
   {{#each entity.properties as |property|}}
-  {{#define "property_url"}}{{entity_doc_url}}#{{lower-camel property.identifier}}-{{lower-camel property.class_name}}{{/define}}
+  {{#define "property_url"}}{{entity_doc_url}}#{{property.name}}-{{lower-camel property.class_name}}{{/define}}
   {{~#define "attribute"}}
   {{~#if property.primary_key}}<color:RED><&key></color>{{/if}}
   {{~#if property.subtype_key}}<color:RED><&flag></color>{{/if}}
@@ -18,7 +18,7 @@ class {{entity.class-name}} [[{{entity_doc_url}}]] {
   {{/each}}
   {{#each entity.relationships as |relationship|}}
   {{#if relationship.snippet}}
-  {{#define "relationship_url"}}{{entity_doc_url}}#{{relationship.property_name}}-{{lower-camel relationship.class_name}}{{/define}}
+  {{#define "relationship_url"}}{{entity_doc_url}}#{{relationship.name}}-{{lower-camel relationship.class_name}}{{/define}}
   {{#if relationship.deprecated}}<s:RED>{{/if}}[[{{relationship_url}} {{relationship.property_name}}]](){{#if relationship.deprecated}}</s>{{/if}}: <color:GRAY>{{relationship.class_name}}</color>
   {{/if}}
   {{/each}}
