@@ -4,6 +4,7 @@ project:
   name: entity
   subname: document
   version: "1.0.0"
+  repository: https://github.com/nabla-squared/laplacian.generator
   description: |
     This template generates a document describing a model defined with 'metamodel' model, which includes
     a diagram that represents the structure of the model.

@@ -1,19 +1,25 @@
+{{#define "base_url"}}{{project.repository}}/blob/master{{/define}}
+{{#define "base_raw_url"}}https://raw.githubusercontent.com/nabla-squared/{{/define}}
+
 @startuml
 left to right direction
 {{#each entities.in_namespace as |entity|}}
-class {{entity.class-name}} {
+{{#define "entity_doc_url"}}{{base_url}}/doc/entities/{{entity.class_name}}.md{{/define}}
+class {{entity.class-name}} [[{{entity_doc_url}}]] {
   {{#each entity.properties as |property|}}
+  {{#define "property_url"}}{{entity_doc_url}}#{{lower-camel property.identifier}}-{{lower-camel property.class_name}}{{/define}}
   {{~#define "attribute"}}
   {{~#if property.primary_key}}<color:RED><&key></color>{{/if}}
   {{~#if property.subtype_key}}<color:RED><&flag></color>{{/if}}
   {{~#if property.overwrites}}<color:GREEN><&arrow-thick-top></color>{{/if}}
   {{~#if (and (not property.optional) (not property.snippet) (not property.default_value))}}<color:Green><&star></color>{{/if}}
   {{~/define}}
-  {{attribute~}}{{#if property.deprecated}}<s:RED>{{/if}}{{#if property.snippet}}{{lower-camel property.identifier}}(){{else}}{{property.identifier}}{{/if}}{{#if property.deprecated}}</s>{{/if}}: <color:GRAY>{{property.class-name}}{{#if property.nullable}}?{{/if}}</color>
+  {{attribute~}}{{#if property.deprecated}}<s:RED>{{/if}}{{#if property.snippet}}[[{{property_url}} {{lower-camel property.identifier}}]](){{else}}[[{{property_url}} {{property.identifier}}]]{{/if}}{{#if property.deprecated}}</s>{{/if}}: <color:GRAY>{{property.class-name}}{{#if property.nullable}}?{{/if}}</color>
   {{/each}}
   {{#each entity.relationships as |relationship|}}
   {{#if relationship.snippet}}
-  {{#if relationship.deprecated}}<s:RED>{{/if}}{{relationship.property_name}}(){{#if relationship.deprecated}}</s>{{/if}}: <color:GRAY>{{relationship.class_name}}</color>
+  {{#define "relationship_url"}}{{entity_doc_url}}#{{relationship.property_name}}-{{lower-camel relationship.class_name}}{{/define}}
+  {{#if relationship.deprecated}}<s:RED>{{/if}}[[{{relationship_url}} {{relationship.property_name}}]](){{#if relationship.deprecated}}</s>{{/if}}: <color:GRAY>{{relationship.class_name}}</color>
   {{/if}}
   {{/each}}
 }

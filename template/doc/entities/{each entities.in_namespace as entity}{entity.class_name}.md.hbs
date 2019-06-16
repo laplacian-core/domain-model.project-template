@@ -1,0 +1,64 @@
+{{#define "deprecated_warning"}}
+  *Warning: This relationship is deprecated and may be deleted in the future release.*
+{{/define}}
+
+# **{{entity.name}}** (*{{entity.namespace}}.model.{{entity.class_name}}*)
+  {{shift entity.description 2}}
+
+  {{#each entity.examples as |example|}}
+  example{{@index_1}}:
+  ```yaml
+  {{yaml example "  "}}
+  ```
+  {{/each}}
+
+---
+
+## Properties
+  {{#each entity.properties as |property|}}
+
+### {{property.name}}: `{{property.class_name}}`
+{{property.description}}
+  {{#if property.deprecated}}
+  {{deprecated_warning}}
+  {{/if}}
+  {{define "attributes" ""}}
+  {{#if property.readonly}}
+  {{#define "attributes"}}*readonly* {{attribute}}{{/define}}
+  {{/if}}
+  {{#if property.primary_key}}
+  {{#define "attributes"}}*PK* {{attribute}}{{/define}}
+  {{/if}}
+  {{#if attributes}}
+- **Attributes:** {{trim attributes}}
+  {{/if}}
+  {{#if property.default_value}}
+- **Defaul value:**
+  ```kotlin
+  {{shift property.default_value 2}}
+  ```
+  {{/if}}
+  {{#if property.snippet}}
+- **Code:**
+  ```kotlin
+  {{shift property.snippet 2}}
+  ```
+  {{/if}}
+  {{/each}}
+
+## Relationships
+  {{#each entity.relationships as |relationship|}}
+
+### {{relationship.name}}: `{{relationship.class_name}}`
+{{relationship.description}}
+  {{#if relationship.deprecated}}
+  {{deprecated_warning}}
+  {{/if}}
+- **Cardinality:** `{{relationship.cardinality}}`
+  {{#if relationship.snippet}}
+- **Code:**
+  ```kotlin
+  {{shift relationship.snippet 2}}
+  ```
+  {{/if}}
+  {{/each}}
