@@ -2,15 +2,17 @@
   *Warning: This relationship is deprecated and may be deleted in the future release.*
 {{/define}}
 
-# **{{entity.name}}** (*{{entity.namespace}}.model.{{entity.class_name}}*)
-  {{shift entity.description 2}}
+# **{{entity.class_name}}**
+**namespace:** {{entity.namespace}}
 
-  {{#each entity.examples as |example|}}
-  example{{@index_1}}:
-  ```yaml
-  {{yaml example "  "}}
-  ```
-  {{/each}}
+{{entity.description}}
+
+{{#each entity.examples as |example|}}
+example{{@index_1}}:
+```yaml
+{{yaml example "  "}}
+```
+{{/each}}
 
 ---
 
@@ -33,7 +35,7 @@
 - **Attributes:** {{trim attributes}}
   {{/if}}
   {{#if property.default_value}}
-- **Defaul value:**
+- **Default Value:**
   ```kotlin
   {{shift property.default_value 2}}
   ```
@@ -55,6 +57,14 @@
   {{deprecated_warning}}
   {{/if}}
 - **Cardinality:** `{{relationship.cardinality}}`
+  {{#if relationship.examples}}
+- **Examples:**
+  {{#each relationship.examples as |example|}}
+  ```kotlin
+  {{shift example.when_invoking 2}} // -> {{shift example.then_returns 2}}
+  ```
+  {{/each}}
+  {{/if}}
   {{#if relationship.snippet}}
 - **Code:**
   ```kotlin
