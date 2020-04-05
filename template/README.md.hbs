@@ -1,0 +1,29 @@
+# {{project.name}}
+
+{{project.description}}
+
+## Model overview
+
+The following diagram summarizes the structure of the model:
+
+![](./doc/image/model-diagram.svg)
+
+## Entities
+{{#each entities.in_namespace as |entity| ~}}
+### [{{entity.class_name}}](./doc/entities/{{entity.class_name}}.md)
+
+{{entity.description}}
+
+{{/each}}
+
+## Usage
+
+Add the following entry to your project definition.
+
+```yaml
+project:
+  models:
+  - group: {{project.group}}
+    name: {{project.name}}
+    version: {{project.version}}
+```
