@@ -1,0 +1,11 @@
+project:
+  sources:
+  - "src/doc/image/model-diagram.puml.hbs"
+  - "src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs"
+  - ".editorconfig"
+  - ".gitignore"
+  - "README.md"
+  - ".gitattributes"
+  - "model/project.yaml"
+  - "model/project/sources.yaml"
+  - "gradlew"
