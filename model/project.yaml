@@ -1,6 +1,6 @@
 project:
   group: laplacian
-  name: schema-doc.template
+  name: schema.document-template
   type: template
   namespace: laplacian
   version: '1.0.0'
@@ -8,17 +8,18 @@ project:
     This template generates diagrams that represents the structure of schemas
     defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
   source_repository:
-    url: https://github.com/nabla-squared/laplacian.schema-doc.template.git
+    url: https://github.com/nabla-squared/laplacian.schema.document-template.git
     branch: master
   subprojects: []
   schemas: []
+  plugins: []
   templates:
   - group: laplacian
-    name: project-base.template
+    name: project.base-template
     version: '1.0.0'
   models:
   - group: laplacian
-    name: project-doc.content
+    name: project.document-content
     version: '1.0.0'
   model_files: []
   template_files: []

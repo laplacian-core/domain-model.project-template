@@ -7,9 +7,24 @@ LOCAL_REPO_PATH="$PROJECT_BASE_DIR/../mvn-repo"
 PROJECT_MODEL_DIR="$PROJECT_BASE_DIR/model/project"
 PROJECT_SOURCE_INDEX="$PROJECT_MODEL_DIR/sources.yaml"
 
+DEST_DIR="$PROJECT_BASE_DIR/dest"
+SRC_DIR="$PROJECT_BASE_DIR/src"
+
 main() {
+  create_dest_dir
   create_file_index
   generate
+}
+
+create_dest_dir() {
+  mkdir -p $DEST_DIR
+  rm -rf $DEST_DIR
+  if [ -d $SRC_DIR ]
+  then
+    cp -rf $SRC_DIR $DEST_DIR
+  else
+    mkdir -p $DEST_DIR
+  fi
 }
 
 normalize_path () {
@@ -44,12 +59,12 @@ file_list() {
 }
 
 #
-# Generate resources for schema-doc.template project.
+# Generate resources for schema.document-template project.
 #
 generate() {
   ${SCRIPT_BASE_DIR}/laplacian-generate.sh \
-    --template 'laplacian:laplacian.project-base.template:1.0.0' \
-    --model 'laplacian:laplacian.project-doc.content:1.0.0' \
+    --template 'laplacian:laplacian.project.base-template:1.0.0' \
+    --model 'laplacian:laplacian.project.document-content:1.0.0' \
     --model-files $(normalize_path './model/project.yaml') \
     --model-files $(normalize_path './model/project/') \
     --target-dir ./ \

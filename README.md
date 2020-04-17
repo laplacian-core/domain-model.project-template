@@ -1,5 +1,5 @@
 <!-- @head-content@ -->
-# laplacian/schema-doc.template
+# laplacian/schema.document-template
 
 This template generates diagrams that represents the structure of schemas
 defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
@@ -18,7 +18,6 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 <!-- @toc -->
 
 <!-- @main-content -->
-
 ## Usage
 
 Add the following entry to your project definition.
@@ -26,7 +25,7 @@ Add the following entry to your project definition.
 project:
   templates:
   - group: laplacian
-    name: schema-doc.template
+    name: schema.document-template
     version: 1.0.0
 ```
 
@@ -53,6 +52,7 @@ project:
 [model/project/sources.yaml](<./model/project/sources.yaml>)
 
 [gradlew](<./gradlew>)
+
 
 
 
