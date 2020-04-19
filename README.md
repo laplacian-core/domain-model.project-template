@@ -6,7 +6,7 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 
 <!-- @head-content@ -->
 
-<!-- @toc -->
+<!-- @toc@ -->
 ## Table of contents
 1. [Usage](#usage)
 
@@ -15,9 +15,9 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 
 
 
-<!-- @toc -->
+<!-- @toc@ -->
 
-<!-- @main-content -->
+<!-- @main-content@ -->
 ## Usage
 
 Add the following entry to your project definition.
@@ -35,26 +35,26 @@ project:
 ## Source list
 
 
-[src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
-
-[src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+[README.md](<./README.md>)
 
 [.editorconfig](<./.editorconfig>)
 
-[.gitignore](<./.gitignore>)
-
-[README.md](<./README.md>)
-
 [.gitattributes](<./.gitattributes>)
 
-[model/project.yaml](<./model/project.yaml>)
-
-[model/project/sources.yaml](<./model/project/sources.yaml>)
+[.gitignore](<./.gitignore>)
 
 [gradlew](<./gradlew>)
 
+[model/project/sources.yaml](<./model/project/sources.yaml>)
+
+[model/project.yaml](<./model/project.yaml>)
+
+[src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+
+[src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
 
 
 
 
-<!-- @main-content -->
+
+<!-- @main-content@ -->
