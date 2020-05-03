@@ -1,12 +1,21 @@
 project:
   group: laplacian
-  name: schema.document-template
+  name: domain-model.document-template
   type: template
   namespace: laplacian
   version: '1.0.0'
-  description: |
-    This template generates diagrams that represents the structure of schemas
-    defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
+  description:
+    en: |
+      This template generates diagrams that represents the structure of schemas
+      defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
+    ja: |
+      This template generates diagrams that represents the structure of schemas
+      defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
+    zh: |
+      This template generates diagrams that represents the structure of schemas
+      defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
   source_repository:
-    url: https://github.com/nabla-squared/laplacian.schema.document-template.git
+    url: https://github.com/nabla-squared/laplacian.domain-model.document-template.git
     branch: master
+  template-files:
+  - dest/
