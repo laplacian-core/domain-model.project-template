@@ -1,0 +1,32 @@
+_description: &description
+ja: |
+  {{project.name}} のドメインモデルプラグインモジュール
+en: |
+  A domain model plugin module for the {{project.name}}.
+zh: |
+  {{project.name}} 域模型插件模块
+
+project:
+  subprojects:
+  - group: {{project.group}}
+    type: domain-model-plugin
+    name: "{{project.name}}-plugin"
+    namespace: {{project.namespace}}
+    description: *description
+    version: '{{project.version}}'
+#   {{~define 'dependent_models' (filter project.models '@it.domain_model') ~}}
+    plugins:
+#   {{#each dependent_models as |dependent_model| ~}}
+    - group: {{dependent_model.group}}
+      name: "{{dependent_model.name}}-plugin"
+      version: '{{dependent_model.version}}'
+#   {{/each}}
+    models:
+    - group: {{project.group}}
+      name: {{project.name}}
+      version: '{{project.version}}'
+#   {{#each dependent_models as |dependent_model| ~}}
+    - group: {{dependent_model.group}}
+      name: {{dependent_model.name}}
+      version: '{{dependent_model.version}}'
+#   {{/each}}

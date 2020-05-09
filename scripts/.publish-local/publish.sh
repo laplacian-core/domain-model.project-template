@@ -42,7 +42,7 @@ pluginManagement {
         jcenter()
     }
 }
-rootProject.name = "laplacian.domain-model.document-template"
+rootProject.name = "laplacian.domain-model.project-template"
 EOF
 }
 

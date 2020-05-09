@@ -1,8 +1,7 @@
 <!-- @head-content@ -->
-# laplacian/domain-model.document-template
+# laplacian/domain-model.project-template
 
-This template generates diagrams that represents the structure of schemas
-defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
+这是一个模板模块、用于生成域模型项目的目录结构、开发脚本和相关文档。
 
 
 *Read this in other languages*: [[English](README.md)] [[日本語](README_ja.md)]
@@ -10,9 +9,15 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 
 <!-- @toc@ -->
 ## Table of contents
+- [概述](#概述)
+
+  * [模式概述](#模式概述)
+
 - [如何使用](#如何使用)
 
 - [索引](#索引)
+
+  * [实体清单](#实体清单)
 
   * [命令列表](#命令列表)
 
@@ -23,6 +28,15 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
+## 概述
+
+
+### 模式概述
+
+
+下面的图表显示了本模块所包含的每个实体的内容以及它们之间的关系。
+![](./doc/image/model-diagram.svg)
+
 ## 如何使用
 
 要应用此template模块，请在项目定义中加入以下条目
@@ -31,7 +45,7 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 project:
   templates:
   - group: laplacian
-    name: domain-model.document-template
+    name: domain-model.project-template
     version: 1.0.0
 ```
 
@@ -50,12 +64,15 @@ diff --color -r PROJECT_HOME/.NEXT/somewhere/something.md PROJECT_HOME/somewhere
 如果没有问题，请执行下面的命令来反映变化
 
 ```console
-$ ./script/generate --dry-run
+$ ./script/generate
 
 ```
 
 
 ## 索引
+
+
+### 实体清单
 
 
 ### 命令列表
@@ -73,25 +90,20 @@ $ ./script/generate --dry-run
     这个目录的内容直接复制到`dest/`目录中。
 
   - `model/`
-    存储以*YAML*或*JSON*格式编写的静态模型数据文件，用于生成。
+    存储以 *YAML* 或 *JSON* 格式编写的静态模型数据文件，用于生成。
 
   - `template/`
     这个目录中包含了用于生成的模板文件。
     扩展名为`.hbs`的文件将作为模板处理。所有其他文件都会被复制。
 
     - `template/dest` `template/doc` `template/scripts`
-      这些目录中的每一个目录都包含要输出的资源的模板文件，其目录为`dest/`doc/`scripts`。
+      这些目录中的每一个目录都包含要输出的资源的模板文件，其目录为 `dest/`doc/`scripts`。
 
-    - `template/model` template/template`
-      These directories store template files updating the contents of `template/` and `model/` used for the generation.
-      If the content of `template/` `model/` is updated as a result of the generation, the generation process is executed recursively.
-      The changes to `template/` `model/` that occur during the above process are treated as an intermediate state and will be lost after the completion of the process.
-      Use the *--dry-run* option to check these intermediate files.
-
+    - `template/model` `template/template`
       这些目录存储模板文件，更新生成过程中使用的`template/`和`model/`的内容。
-      如果在生成过程中更新了`template/` `model/`的内容，则生成过程将递归执行。
-      在上述过程中发生的对`template/` `model/`的变化被视为中间状态，并在过程完成后丢失。
-      使用*--dry-run*选项来检查这些中间文件。
+      如果在生成过程中更新了 `template/` `model/` 的内容，则生成过程将递归执行。
+      在上述过程中发生的对 `template/` `model/` 的变化被视为中间状态，并在过程完成后丢失。
+      使用 *--dry-run* 选项来检查这些中间文件。
 
   *生成器输出文件*
 
@@ -155,6 +167,7 @@ $ ./script/generate --dry-run
 - [src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
 - [src/model/project/document/sections/index/entity-list.hbs.yaml](<./src/model/project/document/sections/index/entity-list.hbs.yaml>)
 - [src/model/project/document/sections/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/overview/model-overview.hbs.yaml>)
+- [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
 
 
 <!-- @main-content@ -->

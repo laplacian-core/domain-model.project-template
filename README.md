@@ -1,8 +1,7 @@
 <!-- @head-content@ -->
-# laplacian/domain-model.document-template
+# laplacian/domain-model.project-template
 
-This template generates diagrams that represents the structure of schemas
-defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
+This is a template module that generates directory structure, development scripts, and relating documents for a domain model project.
 
 
 *Read this in other languages*: [[日本語](README_ja.md)] [[简体中文](README_zh.md)]
@@ -10,9 +9,15 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 
 <!-- @toc@ -->
 ## Table of contents
+- [Overview](#overview)
+
+  * [Model overview](#model-overview)
+
 - [Usage](#usage)
 
 - [Index](#index)
+
+  * [Entity list](#entity-list)
 
   * [Script List](#script-list)
 
@@ -23,6 +28,16 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
+## Overview
+
+
+### Model overview
+
+
+The following diagram explains the entities included in this module and the relationship
+between them.
+![](./doc/image/model-diagram.svg)
+
 ## Usage
 
 To apply this Template module, add the following entry to your project definition.
@@ -30,7 +45,7 @@ To apply this Template module, add the following entry to your project definitio
 project:
   templates:
   - group: laplacian
-    name: domain-model.document-template
+    name: domain-model.project-template
     version: 1.0.0
 ```
 
@@ -47,12 +62,15 @@ diff --color -r PROJECT_HOME/.NEXT/somewhere/something.md PROJECT_HOME/somewhere
 
 If there is no problem, execute the following command to reflect the change.
 ```console
-$ ./script/generate --dry-run
+$ ./script/generate
 
 ```
 
 
 ## Index
+
+
+### Entity list
 
 
 ### Script List
@@ -80,7 +98,7 @@ $ ./script/generate --dry-run
       Each of these directories contains the template files of the resource to be output
       in the directory `dest/` `doc/` `scripts`.
 
-    - `template/model` template/template`
+    - `template/model` `template/template`
       These directories store template files updating the contents of `template/` and `model/` used for the generation.
       If the content of `template/` `model/` is updated as a result of the generation,
       the generation process is executed recursively.
@@ -155,6 +173,7 @@ $ ./script/generate --dry-run
 - [src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
 - [src/model/project/document/sections/index/entity-list.hbs.yaml](<./src/model/project/document/sections/index/entity-list.hbs.yaml>)
 - [src/model/project/document/sections/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/overview/model-overview.hbs.yaml>)
+- [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
 
 
 <!-- @main-content@ -->

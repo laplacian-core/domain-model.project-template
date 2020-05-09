@@ -1,8 +1,7 @@
 <!-- @head-content@ -->
-# laplacian/domain-model.document-template
+# laplacian/domain-model.project-template
 
-This template generates diagrams that represents the structure of schemas
-defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.metamodel).
+ドメインモデルプロジェクトのディレクトリ構成、開発用スクリプト、各種ドキュメントを生成するテンプレートモジュールです。
 
 
 *Read this in other languages*: [[English](README.md)] [[简体中文](README_zh.md)]
@@ -10,9 +9,15 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 
 <!-- @toc@ -->
 ## Table of contents
+- [概要](#概要)
+
+  * [モデル概要](#モデル概要)
+
 - [使用方法](#使用方法)
 
 - [インデックス](#インデックス)
+
+  * [エンティティ一覧](#エンティティ一覧)
 
   * [スクリプト一覧](#スクリプト一覧)
 
@@ -23,6 +28,15 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
+## 概要
+
+
+### モデル概要
+
+
+以下の図は、このモジュールに含まれる各エンティティの内容とそれらの間の関係を表しています。
+![](./doc/image/model-diagram.svg)
+
 ## 使用方法
 
 この templateモジュールを適用するには、プロジェクト定義に以下のエントリを追加してください。
@@ -30,7 +44,7 @@ defined by the [Metamodel](https://github.com/nabla-squared/laplacian.model.meta
 project:
   templates:
   - group: laplacian
-    name: domain-model.document-template
+    name: domain-model.project-template
     version: 1.0.0
 ```
 
@@ -49,12 +63,15 @@ diff --color -r PROJECT_HOME/.NEXT/somewhere/something.md PROJECT_HOME/somewhere
 内容に問題が無ければ、下記コマンドを実行して変更を反映してください。
 
 ```console
-$ ./script/generate --dry-run
+$ ./script/generate
 
 ```
 
 
 ## インデックス
+
+
+### エンティティ一覧
 
 
 ### スクリプト一覧
@@ -81,11 +98,11 @@ $ ./script/generate --dry-run
     - `template/dest` `template/doc` `template/scripts`
       これらのディレクトリはそれぞれ、`dest/` `doc/` `scripts`の各ディレクトリに出力される資源のテンプレートを格納します。
 
-    - `template/model` template/template`
+    - `template/model` `template/template`
       自動生成で使用される`template/` `model/`の内容を更新するためのテンプレートを格納します。
       自動生成の結果、`template/` `model/` の内容が更新された場合は、自動生成処理を再帰的に実行します。
       なお、上記処理中に発生した`template/` `model/`への変更は、中間状態として扱われるため、処理完了後は失われます。
-      これらの中間ファイルを確認するためには*--dry-run*オプションを使用してください。
+      これらの中間ファイルを確認するためには *--dry-run* オプションを使用してください。
 
   *自動生成結果ファイル*
 
@@ -150,6 +167,7 @@ $ ./script/generate --dry-run
 - [src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
 - [src/model/project/document/sections/index/entity-list.hbs.yaml](<./src/model/project/document/sections/index/entity-list.hbs.yaml>)
 - [src/model/project/document/sections/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/overview/model-overview.hbs.yaml>)
+- [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
 
 
 <!-- @main-content@ -->
