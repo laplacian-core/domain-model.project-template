@@ -9,15 +9,9 @@
 
 <!-- @toc@ -->
 ## Table of contents
-- [概要](#概要)
-
-  * [モデル概要](#モデル概要)
-
 - [使用方法](#使用方法)
 
 - [インデックス](#インデックス)
-
-  * [エンティティ一覧](#エンティティ一覧)
 
   * [スクリプト一覧](#スクリプト一覧)
 
@@ -28,15 +22,6 @@
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
-## 概要
-
-
-### モデル概要
-
-
-以下の図は、このモジュールに含まれる各エンティティの内容とそれらの間の関係を表しています。
-![](./doc/image/model-diagram.svg)
-
 ## 使用方法
 
 この templateモジュールを適用するには、プロジェクト定義に以下のエントリを追加してください。
@@ -69,9 +54,6 @@ $ ./script/generate
 
 
 ## インデックス
-
-
-### エンティティ一覧
 
 
 ### スクリプト一覧
@@ -163,10 +145,10 @@ $ ./script/generate
 
 
 - [model/project.yaml](<./model/project.yaml>)
-- [src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
-- [src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
-- [src/model/project/document/sections/index/entity-list.hbs.yaml](<./src/model/project/document/sections/index/entity-list.hbs.yaml>)
-- [src/model/project/document/sections/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/overview/model-overview.hbs.yaml>)
+- [src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+- [src/{if entities}doc/image/model-diagram.puml.hbs](<./src/{if entities}doc/image/model-diagram.puml.hbs>)
+- [src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
+- [src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
 - [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
 
 

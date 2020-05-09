@@ -9,15 +9,9 @@ This is a template module that generates directory structure, development script
 
 <!-- @toc@ -->
 ## Table of contents
-- [Overview](#overview)
-
-  * [Model overview](#model-overview)
-
 - [Usage](#usage)
 
 - [Index](#index)
-
-  * [Entity list](#entity-list)
 
   * [Script List](#script-list)
 
@@ -28,16 +22,6 @@ This is a template module that generates directory structure, development script
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
-## Overview
-
-
-### Model overview
-
-
-The following diagram explains the entities included in this module and the relationship
-between them.
-![](./doc/image/model-diagram.svg)
-
 ## Usage
 
 To apply this Template module, add the following entry to your project definition.
@@ -68,9 +52,6 @@ $ ./script/generate
 
 
 ## Index
-
-
-### Entity list
 
 
 ### Script List
@@ -169,10 +150,10 @@ $ ./script/generate
 
 
 - [model/project.yaml](<./model/project.yaml>)
-- [src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
-- [src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
-- [src/model/project/document/sections/index/entity-list.hbs.yaml](<./src/model/project/document/sections/index/entity-list.hbs.yaml>)
-- [src/model/project/document/sections/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/overview/model-overview.hbs.yaml>)
+- [src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+- [src/{if entities}doc/image/model-diagram.puml.hbs](<./src/{if entities}doc/image/model-diagram.puml.hbs>)
+- [src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
+- [src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
 - [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
 
 

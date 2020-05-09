@@ -9,15 +9,9 @@
 
 <!-- @toc@ -->
 ## Table of contents
-- [概述](#概述)
-
-  * [模式概述](#模式概述)
-
 - [如何使用](#如何使用)
 
 - [索引](#索引)
-
-  * [实体清单](#实体清单)
 
   * [命令列表](#命令列表)
 
@@ -28,15 +22,6 @@
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
-## 概述
-
-
-### 模式概述
-
-
-下面的图表显示了本模块所包含的每个实体的内容以及它们之间的关系。
-![](./doc/image/model-diagram.svg)
-
 ## 如何使用
 
 要应用此template模块，请在项目定义中加入以下条目
@@ -70,9 +55,6 @@ $ ./script/generate
 
 
 ## 索引
-
-
-### 实体清单
 
 
 ### 命令列表
@@ -163,10 +145,10 @@ $ ./script/generate
 
 
 - [model/project.yaml](<./model/project.yaml>)
-- [src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
-- [src/doc/image/model-diagram.puml.hbs](<./src/doc/image/model-diagram.puml.hbs>)
-- [src/model/project/document/sections/index/entity-list.hbs.yaml](<./src/model/project/document/sections/index/entity-list.hbs.yaml>)
-- [src/model/project/document/sections/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/overview/model-overview.hbs.yaml>)
+- [src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+- [src/{if entities}doc/image/model-diagram.puml.hbs](<./src/{if entities}doc/image/model-diagram.puml.hbs>)
+- [src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
+- [src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
 - [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
 
 
