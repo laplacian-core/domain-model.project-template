@@ -7,6 +7,9 @@ _description: &description
     {{project.name}} 域模型插件模块
 
 project:
+  group: {{project.group}}
+  name: {{project.name}}
+  version: '{{project.version}}'
   subprojects:
   - group: {{project.group}}
     type: domain-model-plugin
@@ -14,12 +17,14 @@ project:
     namespace: {{project.namespace}}
     description: *description
     version: '{{project.version}}'
+#   {{#if project.plugins}}
     plugins:
 #   {{#each project.plugins as |dependent_plugin|}}
     - group: {{dependent_plugin.group}}
       name: "{{dependent_plugin.name}}"
       version: '{{dependent_plugin.version}}'
 #   {{/each}}
+#   {{/if}}
     models:
     - group: {{project.group}}
       name: {{project.name}}

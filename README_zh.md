@@ -9,9 +9,15 @@
 
 <!-- @toc@ -->
 ## Table of contents
+- [概述](#概述)
+
+  * [模式概述](#模式概述)
+
 - [如何使用](#如何使用)
 
 - [索引](#索引)
+
+  * [实体清单](#实体清单)
 
   * [命令列表](#命令列表)
 
@@ -22,6 +28,15 @@
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
+## 概述
+
+
+### 模式概述
+
+
+下面的图表显示了本模块所包含的每个实体的内容以及它们之间的关系。
+![](./doc/image/model-diagram.svg)
+
 ## 如何使用
 
 要应用此template模块，请在项目定义中加入以下条目
@@ -57,6 +72,37 @@ $ ./script/generate
 ## 索引
 
 
+### 实体清单
+
+
+- [**Document**](<./doc/entities/Document.md>)
+document
+- [**DocumentLanguage**](<./doc/entities/DocumentLanguage.md>)
+document_language
+- [**Section**](<./doc/entities/Section.md>)
+section
+- [**Module**](<./doc/entities/Module.md>)
+module
+- [**ModuleRepositoryList**](<./doc/entities/ModuleRepositoryList.md>)
+module_repository_list
+- [**Project**](<./doc/entities/Project.md>)
+project
+- [**ProjectType**](<./doc/entities/ProjectType.md>)
+project_type
+- [**Script**](<./doc/entities/Script.md>)
+script
+- [**Option**](<./doc/entities/Option.md>)
+option
+- [**SourceRepository**](<./doc/entities/SourceRepository.md>)
+source_repository
+- [**LocalizedText**](<./doc/entities/LocalizedText.md>)
+localized_text
+- [**MultilingualText**](<./doc/entities/MultilingualText.md>)
+multilingual_text
+- [**NamedParam**](<./doc/entities/NamedParam.md>)
+named_param
+- [**NamedValue**](<./doc/entities/NamedValue.md>)
+named_value
 ### 命令列表
 
 
