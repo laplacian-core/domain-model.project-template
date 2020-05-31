@@ -7,30 +7,31 @@ _description: &description
     {{project.name}} 域模型插件模块
 
 project:
-  group: {{project.group}}
-  name: {{project.name}}
+  group: '{{project.group}}'
+  name: '{{project.name}}'
   version: '{{project.version}}'
   subprojects:
-  - group: {{project.group}}
+  - group: '{{project.group}}'
     type: domain-model-plugin
-    name: "{{project.name}}-plugin"
-    namespace: {{project.namespace}}
+    name: '{{project.name}}-plugin'
+    namespace: '{{project.namespace}}'
     description: *description
     version: '{{project.version}}'
-#   {{#if project.plugins}}
+# . {{define 'dependent_domain_models' (filter project.models '(ends-with @it.name "domain-model")') }}
+#   {{#if dependent_domain_models}}
     plugins:
-#   {{#each project.plugins as |dependent_plugin|}}
-    - group: {{dependent_plugin.group}}
-      name: "{{dependent_plugin.name}}"
-      version: '{{dependent_plugin.version}}'
+#   {{#each dependent_domain_models as |domain_model|}}
+    - group: '{{domain_model.group}}'
+      name: '{{domain_model.name}}-plugin'
+      version: '{{domain_model.version}}'
 #   {{/each}}
 #   {{/if}}
     models:
-    - group: {{project.group}}
-      name: {{project.name}}
+    - group: '{{project.group}}'
+      name: '{{project.name}}'
       version: '{{project.version}}'
-#   {{#each project.models as |dependent_model|}}
-    - group: {{dependent_model.group}}
-      name: {{dependent_model.name}}
-      version: '{{dependent_model.version}}'
+#   {{#each dependent_domain_models as |domain_model|}}
+    - group: '{{domain_model.group}}'
+      name: '{{domain_model.name}}'
+      version: '{{domain_model.version}}'
 #   {{/each}}

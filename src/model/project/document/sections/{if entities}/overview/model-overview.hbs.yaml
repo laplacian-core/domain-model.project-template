@@ -19,8 +19,8 @@ _content: &content
     ![](./doc/image/model-diagram.svg)
 
 project:
-  group: {{project.group}}
-  name: {{project.name}}
+  group: '{{project.group}}'
+  name: '{{project.name}}'
   version: '{{project.version}}'
   document:
     sections:
