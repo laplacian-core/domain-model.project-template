@@ -9,15 +9,9 @@
 
 <!-- @toc@ -->
 ## Table of contents
-- [概要](#概要)
-
-  * [モデル概要](#モデル概要)
-
 - [使用方法](#使用方法)
 
 - [インデックス](#インデックス)
-
-  * [エンティティ一覧](#エンティティ一覧)
 
   * [スクリプト一覧](#スクリプト一覧)
 
@@ -28,15 +22,6 @@
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
-## 概要
-
-
-### モデル概要
-
-
-以下の図は、このモジュールに含まれる各エンティティの内容とそれらの間の関係を表しています。
-![](./doc/image/model-diagram.svg)
-
 ## 使用方法
 
 この templateモジュールを適用するには、プロジェクト定義に以下のエントリを追加してください。
@@ -71,37 +56,6 @@ $ ./script/generate
 ## インデックス
 
 
-### エンティティ一覧
-
-
-- [**Document**](<./doc/entities/Document.md>)
-document
-- [**DocumentLanguage**](<./doc/entities/DocumentLanguage.md>)
-document_language
-- [**Section**](<./doc/entities/Section.md>)
-section
-- [**Module**](<./doc/entities/Module.md>)
-module
-- [**ModuleRepositoryList**](<./doc/entities/ModuleRepositoryList.md>)
-module_repository_list
-- [**Project**](<./doc/entities/Project.md>)
-project
-- [**ProjectType**](<./doc/entities/ProjectType.md>)
-project_type
-- [**Script**](<./doc/entities/Script.md>)
-script
-- [**Option**](<./doc/entities/Option.md>)
-option
-- [**SourceRepository**](<./doc/entities/SourceRepository.md>)
-source_repository
-- [**LocalizedText**](<./doc/entities/LocalizedText.md>)
-localized_text
-- [**MultilingualText**](<./doc/entities/MultilingualText.md>)
-multilingual_text
-- [**NamedParam**](<./doc/entities/NamedParam.md>)
-named_param
-- [**NamedValue**](<./doc/entities/NamedValue.md>)
-named_value
 ### スクリプト一覧
 
 
@@ -164,6 +118,16 @@ named_value
   >   自動生成処理中に`model/` `template/`ディレクトリの内容が更新された場合に、
   >   再帰的に自動生成処理を実行する回数の上限。
   >    (Default: 10)
+  > , --local-module-repository [VALUE]
+  >
+  >   ローカルでビルドされたモジュールを格納するリポジトリのパス。
+  >   ここに存在するモジュールが最優先で参照されます。
+  >   
+  > , --updates-scripts-only
+  >
+  >   スクリプトファイルのみを更新の対象とします。
+  >   プロジェクトを初期生成する際、自動生成スクリプト自体を初回作成する場合などに指定します。
+  >   
 - [./script/publish-local.sh](<./scripts/publish-local.sh>)
 
   プロジェクト内の資源を自動生成した後、ディレクトリにある資源をテンプレートモジュールとしてビルドし、
@@ -187,15 +151,30 @@ named_value
   >
   >   自動生成処理を行わずに、ビルドおよびローカルリポジトリへの登録を行います。
   >   
+  > , --local-module-repository [VALUE]
+  >
+  >   ビルドしたモジュールを格納するローカルリポジトリのパス。
+  >   指定したパスにリポジトリが存在しない場合は、自動的に作成されます。
+  >   
 ### ソースコード一覧
 
 
 - [model/project.yaml](<./model/project.yaml>)
-- [src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
-- [src/{if entities}doc/image/model-diagram.puml.hbs](<./src/{if entities}doc/image/model-diagram.puml.hbs>)
-- [src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
-- [src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
-- [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
+- [src/template/dest/domain-model-plugin/build.gradle.hbs](<./src/template/dest/domain-model-plugin/build.gradle.hbs>)
+- [src/template/dest/domain-model-plugin/gradlew](<./src/template/dest/domain-model-plugin/gradlew>)
+- [src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.jar](<./src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.jar>)
+- [src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.properties](<./src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.properties>)
+- [src/template/dest/domain-model-plugin/settings.gradle.hbs](<./src/template/dest/domain-model-plugin/settings.gradle.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{entity.class_name}.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{entity.class_name}.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{if entity.top_level}{entity.class_name}List.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{if entity.top_level}{entity.class_name}List.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/record/{entity.class_name}Record.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/record/{entity.class_name}Record.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}ModelEntryResolver.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}ModelEntryResolver.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}Plugin.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}Plugin.kt.hbs>)
+- [src/template/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/template/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+- [src/template/{if entities}doc/image/model-diagram.puml.hbs](<./src/template/{if entities}doc/image/model-diagram.puml.hbs>)
+- [src/template/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/template/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
+- [src/template/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/template/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
+- [src/template/scripts/publish-local@main@.hbs.sh](<./src/template/scripts/publish-local@main@.hbs.sh>)
 
 
 <!-- @main-content@ -->

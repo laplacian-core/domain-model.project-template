@@ -1,0 +1,45 @@
+{{define "project_name" (upper-camel project.name)}}
+
+package {{project.namespace}}.gradle
+import laplacian.gradle.task.generate.ExecutionContext
+import laplacian.gradle.task.generate.ModelEntryResolver
+  {{#each entities.top_level_in_namespace as |entity|}}
+import {{entity.namespace}}.model.{{entity.class_name}}List
+import {{entity.namespace}}.record.{{entity.class_name}}Record
+  {{/each}}
+import laplacian.util.*
+
+class {{project_name}}ModelEntryResolver: ModelEntryResolver {
+
+    override fun resolves(key: String, model: Map<String, Any?>): Boolean {
+        return arrayOf(
+            {{#each entities.top_level_in_namespace as |entity|}}
+            {{#if entity.singly_rooted}}
+            "{{entity.name}}"{{#unless @last}},{{/unless}}
+            {{else}}
+            "{{plural entity.name}}"{{#unless @last}},{{/unless}}
+            {{/if}}
+            {{/each}}
+        ).any { it == key }
+    }
+
+    override fun resolve(key: String, model: Map<String, Any?>, context: ExecutionContext): Any? {
+        return when (key) {
+            {{#each entities.top_level_in_namespace as |entity|}}
+            {{#if entity.singly_rooted}}
+            "{{entity.name}}" -> model.get("{{entity.name}}").let {
+                {{entity.class_name}}Record(it as Map<String, Any?>, context.currentModel)
+            }
+            {{else}}
+            "{{plural entity.name}}" -> {{entity.class_name}}List(
+                model.getList<Record>("{{plural entity.name}}", emptyList())
+                     .mergeWithKeys({{#each entity.primary_keys as |pk|}}"{{pk.name}}"{{#unless @last}}, {{/unless}}{{/each}})
+                     .map{ {{entity.class_name}}Record(it, context.currentModel) },
+                context.currentModel
+            )
+            {{/if}}
+            {{/each}}
+            else -> throw IllegalArgumentException("Unknown key: $key")
+        }
+    }
+}

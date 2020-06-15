@@ -1,0 +1,37 @@
+{{#define "class-name"}}{{upper-camel project.name}}Plugin{{/define}}
+{{#define "model-entry-resolver-class"}}{{upper-camel project.name}}ModelEntryResolver{{/define}}
+{{define "is-metamodel-plugin" (eq project.module-id "laplacian.plugin.metamodel")}}
+package {{project.namespace}}.gradle
+import laplacian.gradle.GeneratorPlugin
+import laplacian.gradle.task.LaplacianGenerateExtension
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+
+class {{class-name}}: Plugin<Project> {
+    override fun apply(project: Project) {
+        project.plugins.apply(GeneratorPlugin::class.java)
+        val extension = project.extensions.getByType(LaplacianGenerateExtension::class.java)
+        extension.model {
+            modelEntryResolver({{model-entry-resolver-class}}())
+        }
+        manageDependentModules(project)
+    }
+    private fun manageDependentModules(project: Project) {
+        val isLoadedByItSelf = { artifactId: String ->
+            artifactId.contains(":${project.rootProject.name}:")
+        }
+        val dependentLibs = listOf(
+            {{#each project.schemas as |schema|}}
+            "{{schema.group}}:{{schema.group}}.{{schema.name}}:{{schema.version}}",
+            {{/each}}
+            "{{project.group}}:{{project.group}}.{{project.name}}:{{project.version}}",
+            "laplacian:laplacian.generator:1.0.0"
+        ).filter{ !isLoadedByItSelf(it) }
+        val addToDependencies = { configName: String, dependencies :List<String> ->
+            project.configurations.getByName(configName).dependencies.addAll(
+                dependencies.map{ project.dependencies.create(it) }
+            )
+        }
+        addToDependencies("implementation", dependentLibs)
+    }
+}

@@ -1,0 +1,18 @@
+pluginManagement {
+    repositories {
+        {{define 'repositories' project.module_repositories ~}}
+        {{#if repositories.local ~}}
+        maven {
+            url '../../{{repositories.local}}'
+        }
+        {{/if}}
+        {{#each repositories.remote as |repository_url| ~}}
+        maven {
+            url '{{repository_url}}'
+        }
+        {{/each}}
+        gradlePluginPortal()
+        jcenter()
+    }
+}
+rootProject.name = '{{project.group}}.{{project.name}}-plugin'

@@ -9,15 +9,9 @@
 
 <!-- @toc@ -->
 ## Table of contents
-- [概述](#概述)
-
-  * [模式概述](#模式概述)
-
 - [如何使用](#如何使用)
 
 - [索引](#索引)
-
-  * [实体清单](#实体清单)
 
   * [命令列表](#命令列表)
 
@@ -28,15 +22,6 @@
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
-## 概述
-
-
-### 模式概述
-
-
-下面的图表显示了本模块所包含的每个实体的内容以及它们之间的关系。
-![](./doc/image/model-diagram.svg)
-
 ## 如何使用
 
 要应用此template模块，请在项目定义中加入以下条目
@@ -72,37 +57,6 @@ $ ./script/generate
 ## 索引
 
 
-### 实体清单
-
-
-- [**Document**](<./doc/entities/Document.md>)
-document
-- [**DocumentLanguage**](<./doc/entities/DocumentLanguage.md>)
-document_language
-- [**Section**](<./doc/entities/Section.md>)
-section
-- [**Module**](<./doc/entities/Module.md>)
-module
-- [**ModuleRepositoryList**](<./doc/entities/ModuleRepositoryList.md>)
-module_repository_list
-- [**Project**](<./doc/entities/Project.md>)
-project
-- [**ProjectType**](<./doc/entities/ProjectType.md>)
-project_type
-- [**Script**](<./doc/entities/Script.md>)
-script
-- [**Option**](<./doc/entities/Option.md>)
-option
-- [**SourceRepository**](<./doc/entities/SourceRepository.md>)
-source_repository
-- [**LocalizedText**](<./doc/entities/LocalizedText.md>)
-localized_text
-- [**MultilingualText**](<./doc/entities/MultilingualText.md>)
-multilingual_text
-- [**NamedParam**](<./doc/entities/NamedParam.md>)
-named_param
-- [**NamedValue**](<./doc/entities/NamedValue.md>)
-named_value
 ### 命令列表
 
 
@@ -165,6 +119,16 @@ named_value
   >
   >   当`model/` `template/`目录的内容在生成过程中被更新时，递归执行的次数上限。
   >    (Default: 10)
+  > , --local-module-repository [VALUE]
+  >
+  >   存储本地构建的模块的存储库路径。
+  >   这个存储库中的模块具有最高优先级。
+  >   
+  > , --updates-scripts-only
+  >
+  >   仅更新脚本文件。
+  >   这个选项在项目初始生成时用于生成生成器脚本本身。
+  >   
 - [./script/publish-local.sh](<./scripts/publish-local.sh>)
 
   项目中的资源生成后，在`./dest`目录下的资源作为模板模块建立，并在本地资源库中注册。
@@ -187,15 +151,30 @@ named_value
   >
   >   这个选项与[generate.sh](<./scripts/generate.sh>)中的同名选项相同。
   >   
+  > , --local-module-repository [VALUE]
+  >
+  >   到本地存储库的路径。
+  >   如果在指定的路径中不存在存储库，将自动创建。
+  >   
 ### 源码列表
 
 
 - [model/project.yaml](<./model/project.yaml>)
-- [src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
-- [src/{if entities}doc/image/model-diagram.puml.hbs](<./src/{if entities}doc/image/model-diagram.puml.hbs>)
-- [src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
-- [src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
-- [src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml](<./src/model/project/{if project.domain_model}subprojects/{project.group}.{project.name}-plugin.hbs.yaml>)
+- [src/template/dest/domain-model-plugin/build.gradle.hbs](<./src/template/dest/domain-model-plugin/build.gradle.hbs>)
+- [src/template/dest/domain-model-plugin/gradlew](<./src/template/dest/domain-model-plugin/gradlew>)
+- [src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.jar](<./src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.jar>)
+- [src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.properties](<./src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.properties>)
+- [src/template/dest/domain-model-plugin/settings.gradle.hbs](<./src/template/dest/domain-model-plugin/settings.gradle.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{entity.class_name}.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{entity.class_name}.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{if entity.top_level}{entity.class_name}List.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/model/{if entity.top_level}{entity.class_name}List.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/record/{entity.class_name}Record.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{each entities.in_namespace as entity}{path entity.namespace}/record/{entity.class_name}Record.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}ModelEntryResolver.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}ModelEntryResolver.kt.hbs>)
+- [src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}Plugin.kt.hbs](<./src/template/dest/domain-model-plugin/src/main/kotlin/{path project.namespace}/gradle/{upper-camel project.name}Plugin.kt.hbs>)
+- [src/template/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs](<./src/template/{if entities}doc/entities/{each entities.in_namespace as entity}{entity.class_name}.md.hbs>)
+- [src/template/{if entities}doc/image/model-diagram.puml.hbs](<./src/template/{if entities}doc/image/model-diagram.puml.hbs>)
+- [src/template/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml](<./src/template/model/project/document/sections/{if entities}/index/entity-list.hbs.yaml>)
+- [src/template/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml](<./src/template/model/project/document/sections/{if entities}/overview/model-overview.hbs.yaml>)
+- [src/template/scripts/publish-local@main@.hbs.sh](<./src/template/scripts/publish-local@main@.hbs.sh>)
 
 
 <!-- @main-content@ -->
