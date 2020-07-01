@@ -1,4 +1,3 @@
-#@main@
 main() {
   if [ -z $SKIP_GENERATION ]
   then
@@ -13,4 +12,3 @@ publish_domain_model_plugin() {
     $GRADLE publish
   )
 }
-#@main@
