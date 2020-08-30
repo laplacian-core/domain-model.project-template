@@ -25,7 +25,7 @@ import laplacian.util.*
     override val {{owned_by.property_name}}: {{owned_by.class_name}}{{#if owned_by.nullable}} = null{{/if}},
     {{/if}}
     private val _record: Record = __record.normalizeCamelcase()
-): {{#if entity.supertype}}{{entity.supertype.class_name}}Record(__record, _context{{#if entity.supertype.ownership}}, {{entity.supertype.ownership.property_name}}{{/if}}), {{/if}}{{entity.class_name}}, Record by _record {
+): {{#if entity.supertype}}{{entity.supertype.class_name}}Record(__record, _context{{#if entity.supertype.ownership}}, {{entity.supertype.ownership.property_name}}{{/if}}), {{/if}}{{entity.class_name}}{{#unless entity.supertype}}, Record by _record{{/unless}} {
 
     {{#each entity.properties as |property|}}
 
@@ -49,26 +49,26 @@ import laplacian.util.*
         {{/if}}
         {{/unless}}
     {{/each}}
-    {{#each entity.relationships as |relationship|}}
-    {{#unless relationship.snippet}}
-    {{#unless relationship.inherited}}
-    {{#unless relationship.reverse_of}}
-
+    {{#each entity.relationships as |relationship| ~}}
+    {{#unless relationship.inherited ~}}
+    {{#unless relationship.reverse_of ~}}
     /**
      * {{#if relationship.description}}{{relationship.description}}{{else}}{{relationship.name}}{{/if}}
      */
     override val {{relationship.property_name}}: {{relationship.class_name}}
-    {{#if relationship.aggregate}}
-        {{#if relationship.multiple}}
+        {{#if relationship.snippet ~}}
+        get() = {{shift relationship.snippet 8}}
+        {{else if relationship.aggregate}}
+        {{#if relationship.multiple ~}}
         = {{relationship.reference_entity.class_name}}Record.from(_record.getList("{{relationship.name}}"{{#if relationship.allows_empty}}, emptyList(){{/if}}), _context{{#if relationship.bidirectional}}, this{{/if}})
         {{else}}
-        {{#if relationship.nullable}}
+        {{#if relationship.nullable ~}}
         = getOrNull<Record>("{{relationship.name}}")?.let{ {{relationship.reference_entity.class_name}}Record(it, _context{{#if relationship.bidirectional}}, this{{/if}}) }
         {{else}}
         = {{relationship.reference_entity.class_name}}Record(getOrThrow<Record>("{{relationship.name}}"), _context{{#if relationship.bidirectional}}, this{{/if}})
         {{/if}}
         {{/if}}
-    {{else}}
+       {{else}}
         get() = {{relationship.reference_entity.class_name}}Record.from(_context).{{#if relationship.multiple}}filter{{else}}find{{/if}} {
         {{#each relationship.mappings as |mapping|}}
             it.{{lower-camel mapping.to}} == {{lower-camel mapping.from}}{{#unless @last}} &&{{/unless}}
@@ -83,7 +83,6 @@ import laplacian.util.*
             }.joinToString()
         ){{/unless}}
     {{/if}}
-    {{/unless}}
     {{/unless}}
     {{/unless}}
     {{/each}}
@@ -119,7 +118,19 @@ import laplacian.util.*
             }
         {{else}}
         fun from(records: RecordList, _context: Context) = records.map {
+            {{#if (and entity.subtypes entity.subtype_key)}}
+            {{define "subtype_key_name" entity.subtype_key.property_name}}
+            when (val type = it["{{subtype_key_name}}"]) {
+                {{#each entity.descendants as |subtype|}}
+                "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context)
+                {{/each}}
+                else -> throw IllegalArgumentException(
+                    "Undefined {{subtype_key_name}} ${{subtype_key_name}}. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
+                )
+            }
+            {{else}}
             {{entity.class_name}}Record(it, _context)
+            {{/if}}
         }
         {{/if}}
     }

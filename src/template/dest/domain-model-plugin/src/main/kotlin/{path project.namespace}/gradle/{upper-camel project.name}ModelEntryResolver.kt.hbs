@@ -34,7 +34,7 @@ class {{project_name}}ModelEntryResolver: ModelEntryResolver {
             "{{plural entity.name}}" -> {{entity.class_name}}List(
                 model.getList<Record>("{{plural entity.name}}", emptyList())
                      .mergeWithKeys({{#each entity.primary_keys as |pk|}}"{{pk.name}}"{{#unless @last}}, {{/unless}}{{/each}})
-                     .map{ {{entity.class_name}}Record(it, context.currentModel) },
+                     .let{ {{entity.class_name}}Record.from(it, context.currentModel) },
                 context.currentModel
             )
             {{/if}}

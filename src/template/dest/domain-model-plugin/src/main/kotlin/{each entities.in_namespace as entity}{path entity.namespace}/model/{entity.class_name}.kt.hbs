@@ -22,8 +22,5 @@ interface {{entity.class_name}} {{#if entity.supertype}}: {{entity.supertype.cla
      * {{relationship.description}}
      */
     val {{relationship.property_name}}: {{relationship.class_name}}
-    {{#if relationship.snippet}}
-        get() = {{shift relationship.snippet 8}}
-    {{/if}}
     {{/each}}
 }
