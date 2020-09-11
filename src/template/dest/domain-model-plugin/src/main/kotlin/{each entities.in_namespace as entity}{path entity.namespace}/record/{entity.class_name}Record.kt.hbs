@@ -1,10 +1,7 @@
 {{define "owned_by" entity.owned_by}}
 package {{entity.namespace}}.record
 import com.github.jknack.handlebars.Context
-import {{entity.namespace}}.model.{{entity.class_name}}
-  {{#if entity.top_level}}
-import {{entity.namespace}}.model.{{entity.class_name}}List
-  {{/if}}
+import {{entity.namespace}}.model.*
   {{#each (unique (map (concat entity.relationships entity.inherited_from) "@it.reference_entity")) as |relating_entity|}}
   {{#neq relating_entity entity}}
 import {{relating_entity.namespace}}.model.{{relating_entity.class_name}}
