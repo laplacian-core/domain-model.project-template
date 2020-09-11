@@ -106,7 +106,7 @@ import laplacian.util.*
                     "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
                     {{/each}}
                     else -> throw IllegalArgumentException(
-                        "Undefined {{subtype_key_name}} ${{subtype_key_name}}. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
+                        "Undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
                     )
                 }
                 {{else}}
@@ -122,7 +122,7 @@ import laplacian.util.*
                 "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context)
                 {{/each}}
                 else -> throw IllegalArgumentException(
-                    "Undefined {{subtype_key_name}} ${{subtype_key_name}}. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
+                    "Undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
                 )
             }
             {{else}}
