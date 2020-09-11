@@ -100,13 +100,13 @@ import laplacian.util.*
             {{/if}}
             .map {
                 {{#if (and entity.subtypes entity.subtype_key)}}
-                {{define "subtype_key_name" entity.subtype_key.property_name}}
+                {{define "subtype_key_name" entity.subtype_key.name}}
                 when (val type = it["{{subtype_key_name}}"]) {
                     {{#each entity.descendants as |subtype|}}
                     "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
                     {{/each}}
                     else -> throw IllegalArgumentException(
-                        "Undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
+                        "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
                     )
                 }
                 {{else}}
@@ -116,13 +116,13 @@ import laplacian.util.*
         {{else}}
         fun from(records: RecordList, _context: Context) = records.map {
             {{#if (and entity.subtypes entity.subtype_key)}}
-            {{define "subtype_key_name" entity.subtype_key.property_name}}
+            {{define "subtype_key_name" entity.subtype_key.name}}
             when (val type = it["{{subtype_key_name}}"]) {
                 {{#each entity.descendants as |subtype|}}
                 "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context)
                 {{/each}}
                 else -> throw IllegalArgumentException(
-                    "Undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]"
+                    "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.subtypes as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
                 )
             }
             {{else}}
