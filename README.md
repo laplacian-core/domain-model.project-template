@@ -9,9 +9,15 @@ This is a template module that generates directory structure, development script
 
 <!-- @toc@ -->
 ## Table of contents
+- [Overview](#overview)
+
+  * [Model overview](#model-overview)
+
 - [Usage](#usage)
 
 - [Index](#index)
+
+  * [Entity list](#entity-list)
 
   * [Script List](#script-list)
 
@@ -22,6 +28,16 @@ This is a template module that generates directory structure, development script
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
+## Overview
+
+
+### Model overview
+
+
+The following diagram explains the entities included in this module and the relationship
+between them.
+![](./doc/image/model-diagram.svg)
+
 ## Usage
 
 To apply this Template module, add the following entry to your project definition.
@@ -54,6 +70,37 @@ $ ./script/generate
 ## Index
 
 
+### Entity list
+
+
+- [**Document**](<./doc/entities/Document.md>)
+document
+- [**DocumentLanguage**](<./doc/entities/DocumentLanguage.md>)
+document_language
+- [**Section**](<./doc/entities/Section.md>)
+section
+- [**Module**](<./doc/entities/Module.md>)
+module
+- [**ModuleRepositoryList**](<./doc/entities/ModuleRepositoryList.md>)
+module_repository_list
+- [**Project**](<./doc/entities/Project.md>)
+project
+- [**ProjectType**](<./doc/entities/ProjectType.md>)
+project_type
+- [**Script**](<./doc/entities/Script.md>)
+script
+- [**Option**](<./doc/entities/Option.md>)
+option
+- [**SourceRepository**](<./doc/entities/SourceRepository.md>)
+source_repository
+- [**LocalizedText**](<./doc/entities/LocalizedText.md>)
+localized_text
+- [**MultilingualText**](<./doc/entities/MultilingualText.md>)
+multilingual_text
+- [**NamedParam**](<./doc/entities/NamedParam.md>)
+named_param
+- [**NamedValue**](<./doc/entities/NamedValue.md>)
+named_value
 ### Script List
 
 
