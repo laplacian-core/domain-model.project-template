@@ -22,7 +22,7 @@ import laplacian.util.*
     override val {{owned_by.property_name}}: {{owned_by.class_name}}{{#if owned_by.nullable}} = null{{/if}},
     {{/if}}
     private val _record: Record = __record.normalizeCamelcase()
-): {{#if entity.supertype}}{{entity.supertype.class_name}}Record(__record, _context{{#if entity.supertype.ownership}}, environment{{/if}}), {{/if}}{{entity.class_name}}{{#unless entity.supertype}}, Record by _record{{/unless}} {
+): {{#if entity.supertype}}{{entity.supertype.class_name}}Record(__record, _context{{#if entity.supertype.ownership}}, {{owned_by.property_name}}{{/if}}), {{/if}}{{entity.class_name}}{{#unless entity.supertype}}, Record by _record{{/unless}} {
 
     {{#each entity.properties as |property|}}
 
