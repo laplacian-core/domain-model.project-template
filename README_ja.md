@@ -9,15 +9,9 @@
 
 <!-- @toc@ -->
 ## Table of contents
-- [概要](#概要)
-
-  * [モデル概要](#モデル概要)
-
 - [使用方法](#使用方法)
 
 - [インデックス](#インデックス)
-
-  * [エンティティ一覧](#エンティティ一覧)
 
   * [スクリプト一覧](#スクリプト一覧)
 
@@ -28,15 +22,6 @@
 <!-- @toc@ -->
 
 <!-- @main-content@ -->
-## 概要
-
-
-### モデル概要
-
-
-以下の図は、このモジュールに含まれる各エンティティの内容とそれらの間の関係を表しています。
-![](./doc/image/model-diagram.svg)
-
 ## 使用方法
 
 この templateモジュールを適用するには、プロジェクト定義に以下のエントリを追加してください。
@@ -71,37 +56,6 @@ $ ./script/generate
 ## インデックス
 
 
-### エンティティ一覧
-
-
-- [**Document**](<./doc/entities/Document.md>)
-document
-- [**DocumentLanguage**](<./doc/entities/DocumentLanguage.md>)
-document_language
-- [**Section**](<./doc/entities/Section.md>)
-section
-- [**Module**](<./doc/entities/Module.md>)
-module
-- [**ModuleRepositoryList**](<./doc/entities/ModuleRepositoryList.md>)
-module_repository_list
-- [**Project**](<./doc/entities/Project.md>)
-project
-- [**ProjectType**](<./doc/entities/ProjectType.md>)
-project_type
-- [**Script**](<./doc/entities/Script.md>)
-script
-- [**Option**](<./doc/entities/Option.md>)
-option
-- [**SourceRepository**](<./doc/entities/SourceRepository.md>)
-source_repository
-- [**LocalizedText**](<./doc/entities/LocalizedText.md>)
-localized_text
-- [**MultilingualText**](<./doc/entities/MultilingualText.md>)
-multilingual_text
-- [**NamedParam**](<./doc/entities/NamedParam.md>)
-named_param
-- [**NamedValue**](<./doc/entities/NamedValue.md>)
-named_value
 ### スクリプト一覧
 
 
