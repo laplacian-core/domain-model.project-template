@@ -161,6 +161,7 @@ $ ./script/generate
 
 - [model/project.yaml](<./model/project.yaml>)
 - [src/template/dest/domain-model-plugin/build.gradle.hbs](<./src/template/dest/domain-model-plugin/build.gradle.hbs>)
+- [src/template/dest/domain-model-plugin/gradle.properties](<./src/template/dest/domain-model-plugin/gradle.properties>)
 - [src/template/dest/domain-model-plugin/gradlew](<./src/template/dest/domain-model-plugin/gradlew>)
 - [src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.jar](<./src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.jar>)
 - [src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.properties](<./src/template/dest/domain-model-plugin/gradle/wrapper/gradle-wrapper.properties>)
