@@ -37,16 +37,7 @@ import laplacian.util.*
      */
     {{#if (eq property.type 'any_entity') ~}}
     override val {{property.property_name}}: {{property.class_name}} by lazy {
-        _record.getList<Map<String, Any?>>("content", emptyList()).map {
-            when (val type = it["_class_"]) {
-                {{#each entities.top_level as |entity| ~}}
-                "{{entity.name}}" -> {{entity.fqn}}Record(it, _context)
-                {{/each}}
-                else -> throw IllegalArgumentException(
-                    "The given record has undefined type $type. Record: $it"
-                )
-            }
-        }
+        _record.getList<Map<String, Any?>>("content", emptyList())
     }
     {{else}}
     override val {{property.property_name}}: {{property.class_name}}{{#if property.nullable}}? by _record{{/if}}
