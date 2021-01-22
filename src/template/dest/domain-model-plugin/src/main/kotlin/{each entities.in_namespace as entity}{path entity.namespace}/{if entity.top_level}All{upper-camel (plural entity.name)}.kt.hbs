@@ -1,14 +1,15 @@
-package {{entity.namespace}}.model
+{{define 'class_name' (concat 'All' (upper-camel (plural entity.name))) ~}}
+package {{entity.namespace}}
 import com.github.jknack.handlebars.Context
-{{#each entity.relating_external_entities as |external_entity|}}
-import {{external_entity.namespace}}.model.{{external_entity.class_name}}
+{{#each entity.relating_external_entities as |external_entity| ~}}
+import {{external_entity.namespace}}.{{external_entity.class_name}}
 {{/each}}
 import laplacian.util.*
 
 /**
- * A container for records of {{entity.name}}
+ * All {{plural entity.name}}.
  */
-class {{entity.class_name}}List(
+class {{class_name}}(
     list: List<{{entity.class_name}}>,
     val context: Context
 ) : List<{{entity.class_name}}> by list {

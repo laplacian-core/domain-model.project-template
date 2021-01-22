@@ -1,20 +1,22 @@
-{{#define "base_url"}}{{project.repository}}/blob/master{{/define}}
-{{#define "base_raw_url"}}https://raw.githubusercontent.com/nabla-squared/{{/define}}
-
+{{define "base_url" (concat project.repository '/blob/master') ~}}
+{{define "base_raw_url" 'https://raw.githubusercontent.com/nabla-squared/' ~}}
 @startuml
 left to right direction
 {{#each entities.in_namespace as |entity|}}
-{{#define "entity_doc_url"}}{{base_url}}/doc/entities/{{entity.class_name}}.md{{/define}}
-class {{entity.class-name}} [[{{entity_doc_url}}]] {
+{{define "entity_doc_url" (concat base_url '/doc/entities/' entity.class_name '.md') ~}}
+class {{entity.fqn}} [[{{entity_doc_url}}]] {
   {{#each entity.properties as |property|}}
-  {{#define "property_url"}}{{entity_doc_url}}#{{property.name}}-{{lower-camel property.class_name}}{{/define}}
-  {{~#define "attribute"}}
-  {{~#if property.primary_key}}<color:RED><&key></color>{{/if}}
-  {{~#if property.subtype_key}}<color:RED><&flag></color>{{/if}}
-  {{~#if property.overwrites}}<color:GREEN><&arrow-thick-top></color>{{/if}}
-  {{~#if (and (not property.optional) (not property.snippet) (not property.default_value))}}<color:Green><&star></color>{{/if}}
-  {{~/define}}
-  {{attribute~}}{{#if property.deprecated}}<s:RED>{{/if}}{{#if property.snippet}}[[{{property_url}} {{lower-camel property.identifier}}]](){{else}}[[{{property_url}} {{property.identifier}}]]{{/if}}{{#if property.deprecated}}</s>{{/if}}: <color:GRAY>{{property.class-name}}{{#if property.nullable}}?{{/if}}</color>
+  {{define "property_url" (concat entity_doc_url '#' property.name '-' (lower-camel property.class_name)) ~}}
+  {{define "attribute" (case
+    property.primary_key '<color:RED><&key></color>'
+    property.subtype_key '<color:RED><&flag></color>'
+    property.overwrites '<color:GREEN><&arrow-thick-top></color>'
+    (and (not property.optional) (not property.snippet) (not property.default_value)) '<color:Green><&star></color>'
+  ) ~}}
+  {{attribute~}}{{if property.deprecated '<s:RED>'}}{{if property.snippet
+    (concat '[[' property_url ' ' (lower-camel property.identifier) ']]()')
+    (concat '[[' property_url ' ' property.identifier ']]')
+  ~}}{{if property.deprecated '</s>' ~}}: <color:GRAY>{{property.class-name}}{{if property.nullable '?' ~}}</color>
   {{/each}}
   {{#each entity.relationships as |relationship|}}
   {{#if relationship.snippet}}
@@ -24,27 +26,14 @@ class {{entity.class-name}} [[{{entity_doc_url}}]] {
   {{/each}}
 }
 {{#if entity.supertype}}
-{{entity.class-name}} --|> {{entity.supertype.class-name}}
-{{#if (neq entity.namespace entity.supertype.namespace)}}
-package {{entity.supertype.namespace}} {
-  class {{entity.supertype.class-name}} {
-  }
-}
-{{/if}}
+{{entity.fqn}} --|> {{entity.supertype.fqn}}
 {{/if}}
 {{#each entity.stored_relationships as |relationship|}}
 {{define "ref-entity" relationship.reference-entity}}
-{{define "external" (neq entity.namespace ref-entity.namespace)}}
-{{#if external}}
-package {{ref-entity.namespace}} {
-  class {{ref-entity.class-name}} {
-  }
-}
-{{/if}}
 {{#if relationship.aggregate}}
-{{entity.class-name}} *-- "{{relationship.cardinality}}" {{ref-entity.class-name}} : {{relationship.name}}
+{{entity.fqn}} *-- "{{relationship.cardinality}}" {{ref-entity.fqn}} : {{relationship.name}}
 {{else}}
-{{entity.class-name}} -- "{{relationship.cardinality}}" {{ref-entity.class-name}} : {{relationship.name}}
+{{entity.fqn}} -- "{{relationship.cardinality}}" {{ref-entity.fqn}} : {{relationship.name}}
 {{/if}}
 {{/each}}
 {{/each}}

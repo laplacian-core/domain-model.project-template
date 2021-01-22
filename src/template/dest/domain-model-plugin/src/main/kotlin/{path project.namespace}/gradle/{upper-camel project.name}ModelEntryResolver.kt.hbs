@@ -1,12 +1,12 @@
-{{define "project_name" (upper-camel project.name)}}
-
+{{define "project_name" (upper-camel project.name) ~}}
 package {{project.namespace}}.gradle
 import laplacian.gradle.task.generate.ExecutionContext
 import laplacian.gradle.task.generate.ModelEntryResolver
-  {{#each entities.top_level_in_namespace as |entity|}}
-import {{entity.namespace}}.model.{{entity.class_name}}List
-import {{entity.namespace}}.record.{{entity.class_name}}Record
-  {{/each}}
+{{#each entities.top_level_in_namespace as |entity| ~}}
+{{define 'all_entities_container_class_name' (concat 'All' (upper-camel (plural entity.name))) ~}}
+import {{entity.namespace}}.{{all_entities_container_class_name}}
+import {{entity.namespace}}.{{entity.class_name}}Record
+{{/each}}
 import laplacian.util.*
 
 class {{project_name}}ModelEntryResolver: ModelEntryResolver {
@@ -31,7 +31,8 @@ class {{project_name}}ModelEntryResolver: ModelEntryResolver {
                 {{entity.class_name}}Record(it as Map<String, Any?>, context.currentModel)
             }
             {{else}}
-            "{{plural entity.name}}" -> {{entity.class_name}}List(
+            {{define 'all_entities_container_class_name' (concat 'All' (upper-camel (plural entity.name))) ~}}
+            "{{plural entity.name}}" -> {{all_entities_container_class_name}}(
                 model.getList<Record>("{{plural entity.name}}", emptyList())
                      .mergeWithKeys({{#each entity.primary_keys as |pk|}}"{{pk.name}}"{{#unless @last}}, {{/unless}}{{/each}})
                      .let{ {{entity.class_name}}Record.from(it, context.currentModel) },

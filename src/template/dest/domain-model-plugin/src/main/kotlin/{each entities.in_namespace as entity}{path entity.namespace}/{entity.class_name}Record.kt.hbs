@@ -1,19 +1,25 @@
-{{define "owned_by" entity.owned_by}}
-package {{entity.namespace}}.record
+{{define "owned_by" entity.owned_by ~}}
+{{define "relating_entities" (unique (map (concat entity.relationships entity.inherited_from) "@it.reference_entity")) ~}}
+package {{entity.namespace}}
 import com.github.jknack.handlebars.Context
-import {{entity.namespace}}.model.*
-  {{#each (unique (map (concat entity.relationships entity.inherited_from) "@it.reference_entity")) as |relating_entity|}}
-  {{#neq relating_entity entity}}
-import {{relating_entity.namespace}}.model.{{relating_entity.class_name}}
-  {{#neq entity.namespace relating_entity.namespace}}
-import {{relating_entity.namespace}}.record.{{relating_entity.class_name}}Record
-  {{/neq}}
-  {{/neq}}
-  {{/each}}
+{{#each relating_entities as |relating_entity| ~}}
+{{#neq relating_entity entity ~}}
+import {{relating_entity.fqn}}
+{{#neq entity.namespace relating_entity.namespace ~}}
+import {{relating_entity.fqn}}Record
+{{/neq}}
+{{/neq}}
+{{/each}}
+{{#if entity.supertype ~}}
+import {{entity.supertype.fqn}}Record
+{{/if}}
+{{#each entity.descendants as |subtype| ~}}
+import {{subtype.fqn}}Record
+{{/each}}
 import laplacian.util.*
   {{#define "class_modifier"}}{{#if entity.subtypes}}open{{else}}data{{/if}}{{/define}}
 /**
- * {{entity.description}}
+ * {{trim entity.description}}
  */
 {{class_modifier}} class {{entity.class_name}}Record (
     private val __record: Record,
@@ -27,8 +33,22 @@ import laplacian.util.*
     {{#each entity.properties as |property|}}
 
     /**
-     * {{property.description}}
+     * {{trim property.description}}
      */
+    {{#if (eq property.type 'any_entity') ~}}
+    override val {{property.property_name}}: {{property.class_name}} by lazy {
+        _record.getList<Map<String, Any?>>("content", emptyList()).map {
+            when (val type = it["_class_"]) {
+                {{#each entities.top_level as |entity| ~}}
+                "{{entity.name}}" -> {{entity.fqn}}Record(it, _context)
+                {{/each}}
+                else -> throw IllegalArgumentException(
+                    "The given record has undefined type $type. Record: $it"
+                )
+            }
+        }
+    }
+    {{else}}
     override val {{property.property_name}}: {{property.class_name}}{{#if property.nullable}}? by _record{{/if}}
         {{#unless property.nullable}}
         {{#if property.default_value}}
@@ -45,28 +65,29 @@ import laplacian.util.*
         get() = getOrThrow("{{property.property_name}}")
         {{/if}}
         {{/unless}}
+    {{/if}}
     {{/each}}
     {{#each entity.relationships as |relationship| ~}}
     {{#unless relationship.inherited ~}}
     {{#unless relationship.reverse_of ~}}
     /**
-     * {{#if relationship.description}}{{relationship.description}}{{else}}{{relationship.name}}{{/if}}
+     * {{trim relationship.description}}
      */
-    override val {{relationship.property_name}}: {{relationship.class_name}}
+    override val {{relationship.property_name}}: {{relationship.class_name}} by lazy {
         {{#if relationship.snippet ~}}
-        get() = {{shift relationship.snippet 8}}
+        {{shift relationship.snippet 8}}
         {{else if relationship.aggregate}}
         {{#if relationship.multiple ~}}
-        = {{relationship.reference_entity.class_name}}Record.from(_record.getList("{{relationship.name}}"{{#if relationship.allows_empty}}, emptyList(){{/if}}), _context{{#if relationship.bidirectional}}, this{{/if}})
+        {{relationship.reference_entity.class_name}}Record.from(_record.getList("{{relationship.name}}"{{#if relationship.allows_empty}}, emptyList(){{/if}}), _context{{#if relationship.bidirectional}}, this{{/if}})
         {{else}}
         {{#if relationship.nullable ~}}
-        = getOrNull<Record>("{{relationship.name}}")?.let{ {{relationship.reference_entity.class_name}}Record(it, _context{{#if relationship.bidirectional}}, this{{/if}}) }
+        getOrNull<Record>("{{relationship.name}}")?.let{ {{relationship.reference_entity.class_name}}Record(it, _context{{#if relationship.bidirectional}}, this{{/if}}) }
         {{else}}
-        = {{relationship.reference_entity.class_name}}Record(getOrThrow<Record>("{{relationship.name}}"), _context{{#if relationship.bidirectional}}, this{{/if}})
+        {{relationship.reference_entity.class_name}}Record(getOrThrow<Record>("{{relationship.name}}"), _context{{#if relationship.bidirectional}}, this{{/if}})
         {{/if}}
         {{/if}}
-       {{else}}
-        get() = {{relationship.reference_entity.class_name}}Record.from(_context).{{#if relationship.multiple}}filter{{else}}find{{/if}} {
+        {{else}}
+        {{relationship.reference_entity.class_name}}Record.from(_context).{{#if relationship.multiple}}filter{{else}}find{{/if}} {
         {{#each relationship.mappings as |mapping|}}
             it.{{lower-camel mapping.to}} == {{lower-camel mapping.from}}{{#unless @last}} &&{{/unless}}
         {{/each}}
@@ -79,18 +100,20 @@ import laplacian.util.*
               "({{#block-join relationship.mappings as |mapping|}}${ it.{{lower-camel mapping.to}} }{{/block-join}})"
             }.joinToString()
         ){{/unless}}
-    {{/if}}
+        {{/if}}
+    }
     {{/unless}}
     {{/unless}}
     {{/each}}
 
     companion object {
         /**
-         * creates record list from list of map
+         * Creates record list from list of map.
          */
-        {{#if entity.topLevel}}
-        fun from(_context: Context): {{entity.class_name}}List {
-            return _context.get("{{plural entity.name}}") as {{entity.class_name}}List
+        {{#if entity.topLevel ~}}
+        {{define 'all_entities_container_class_name' (concat 'All' (upper-camel (plural entity.name))) ~}}
+        fun from(_context: Context): {{all_entities_container_class_name}} {
+            return _context.get("{{plural entity.name}}") as {{all_entities_container_class_name}}
         }
         {{/if}}
         {{#if owned_by}}
