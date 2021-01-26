@@ -120,7 +120,7 @@ import laplacian.util.*
                     "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
                     {{/each}}
                     else -> throw IllegalArgumentException(
-                        "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendent as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
+                        "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendants as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
                     )
                 }
                 {{else}}
@@ -136,7 +136,7 @@ import laplacian.util.*
                 "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context)
                 {{/each}}
                 else -> throw IllegalArgumentException(
-                    "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendent as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
+                    "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendants as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
                 )
             }
             {{else}}
