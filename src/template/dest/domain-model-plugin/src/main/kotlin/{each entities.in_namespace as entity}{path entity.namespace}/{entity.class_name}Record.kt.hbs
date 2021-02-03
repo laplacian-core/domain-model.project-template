@@ -72,7 +72,7 @@ import laplacian.util.*
         {{relationship.reference_entity.class_name}}Record.from(_record.getList("{{relationship.name}}"{{#if relationship.allows_empty}}, emptyList(){{/if}}), _context{{#if relationship.bidirectional}}, this{{/if}})
         {{else}}
         {{#if relationship.nullable ~}}
-        getOrNull<Record>("{{relationship.name}}")?.let{ {{relationship.reference_entity.class_name}}Record(it, _context{{#if relationship.bidirectional}}, this{{/if}}) }
+        getOrNull<Record>("{{relationship.name}}")?.let{ {{relationship.reference_entity.class_name}}Record.from(it, _context{{#if relationship.bidirectional}}, this{{/if}}) }
         {{else}}
         {{relationship.reference_entity.class_name}}Record(getOrThrow<Record>("{{relationship.name}}"), _context{{#if relationship.bidirectional}}, this{{/if}})
         {{/if}}
@@ -112,37 +112,39 @@ import laplacian.util.*
             {{#if entity.primary_keys}}
             .mergeWithKeys({{#each entity.primary_keys as |pk|}}"{{pk.property_name}}"{{#unless @last}}, {{/unless}}{{/each}})
             {{/if}}
-            .map {
-                {{#if (and entity.subtypes entity.subtype_key)}}
-                {{define "subtype_key_name" entity.subtype_key.name}}
-                when (val type = it["{{subtype_key_name}}"]) {
-                    {{#each entity.descendants as |subtype|}}
-                    "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
-                    {{/each}}
-                    else -> throw IllegalArgumentException(
-                        "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendants as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
-                    )
-                }
-                {{else}}
-                {{entity.class_name}}Record(it, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
-                {{/if}}
-            }
-        {{else}}
-        fun from(records: RecordList, _context: Context) = records.map {
+            .map { from(it, _context, {{owned_by.property_name}} = {{owned_by.property_name}}) }
+
+        fun from(record: Record, _context: Context, {{owned_by.property_name}}: {{owned_by.class_name}}{{#if owned_by.nullable}} = null{{/if}}) =
             {{#if (and entity.subtypes entity.subtype_key)}}
             {{define "subtype_key_name" entity.subtype_key.name}}
-            when (val type = it["{{subtype_key_name}}"]) {
+            when (val type = record["{{subtype_key_name}}"]) {
                 {{#each entity.descendants as |subtype|}}
-                "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(it, _context)
+                "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(record, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
                 {{/each}}
                 else -> throw IllegalArgumentException(
-                    "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendants as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $it"
+                    "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendants as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $record"
                 )
             }
             {{else}}
-            {{entity.class_name}}Record(it, _context)
+            {{entity.class_name}}Record(record, _context, {{owned_by.property_name}} = {{owned_by.property_name}})
             {{/if}}
-        }
+        {{else}}
+        fun from(records: RecordList, _context: Context) = records.map { from(it, _context) }
+
+        fun from(record: Record, _context: Context) =
+            {{#if (and entity.subtypes entity.subtype_key)}}
+            {{define "subtype_key_name" entity.subtype_key.name}}
+            when (val type = record["{{subtype_key_name}}"]) {
+                {{#each entity.descendants as |subtype|}}
+                "{{subtype.subtype_key_value}}" -> {{subtype.class_name}}Record(record, _context)
+                {{/each}}
+                else -> throw IllegalArgumentException(
+                    "The given record has undefined {{subtype_key_name}} $type. It is should be one of [{{#each entity.descendants as |s|}}{{s.subtype_key_value}}{{#unless @last}}, {{/unless}}{{/each}}]. Record: $record"
+                )
+            }
+            {{else}}
+            {{entity.class_name}}Record(record, _context)
+            {{/if}}
         {{/if}}
     }
     {{#if entity.primary_keys}}
