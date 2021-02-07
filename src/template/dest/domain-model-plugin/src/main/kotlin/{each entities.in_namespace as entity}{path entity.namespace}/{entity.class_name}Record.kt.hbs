@@ -30,7 +30,7 @@ import laplacian.util.*
     private val _record: Record = __record.normalizeCamelcase()
 ): {{#if entity.supertype}}{{entity.supertype.class_name}}Record(__record, _context{{#if entity.supertype.ownership}}, {{owned_by.property_name}}{{/if}}), {{/if}}{{entity.class_name}}{{#unless entity.supertype}}, Record by _record{{/unless}} {
 
-    {{#each entity.properties as |property|}}
+    {{#each entity.properties as |property| ~}}
 
     /**
      * {{trim property.description}}
@@ -40,22 +40,22 @@ import laplacian.util.*
         _record.getList<Map<String, Any?>>("content", emptyList())
     }
     {{else}}
-    override val {{property.property_name}}: {{property.class_name}}{{#if property.nullable}}? by _record{{/if}}
-        {{#unless property.nullable}}
-        {{#if property.default_value}}
+    override val {{property.property_name}}: {{property.class_name}}{{if property.nullable '?'}}
+        {{#if property.snippet ~}}
+        get() = {{shift property.snippet 8}}
+        {{else if property.default_value ~}}
         get() = getOrThrow("{{property.property_name}}") {
             {{shift property.default_value 12}}
         }
-        {{else if property.snippet}}
-        get() = {{shift property.snippet 8}}
-        {{else if property.multiple}}
+        {{else if property.multiple ~}}
         get() = getOrThrow("{{property.property_name}}") {
             empty{{property.class_name}}()
         }
-        {{else}}
+        {{else if property.nullable ~}}
+        by _record
+        {{else ~}}
         get() = getOrThrow("{{property.property_name}}")
         {{/if}}
-        {{/unless}}
     {{/if}}
     {{/each}}
     {{#each entity.relationships as |relationship| ~}}
