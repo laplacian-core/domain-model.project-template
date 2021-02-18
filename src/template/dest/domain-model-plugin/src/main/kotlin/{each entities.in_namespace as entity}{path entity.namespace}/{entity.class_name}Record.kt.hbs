@@ -96,6 +96,10 @@ import laplacian.util.*
     {{/unless}}
     {{/unless}}
     {{/each}}
+    /**
+     * Returns wether this instance is a {{entity.name}} or not.
+     */
+    override val isa{{upper-camel entity.class_name}}: Boolean = true
 
     companion object {
         /**

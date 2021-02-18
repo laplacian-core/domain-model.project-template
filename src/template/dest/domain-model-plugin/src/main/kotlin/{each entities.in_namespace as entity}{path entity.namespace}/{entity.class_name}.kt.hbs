@@ -25,4 +25,8 @@ interface {{entity.class_name}} {{#if entity.supertype}}: {{entity.supertype.cla
      */
     val {{relationship.property_name}}: {{relationship.class_name}}
     {{/each}}
+    /**
+     * Returns wether this instance is a {{entity.name}} or not.
+     */
+    val isa{{upper-camel entity.class_name}}: Boolean
 }
